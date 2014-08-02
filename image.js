@@ -90,7 +90,7 @@ var image_borrow = function(){
 		      						zh.uploadByUrl(stash[index].name, stash[index].url, 'zh.asoiaf.image: image migrated from '+stash[index].descriptionurl /* or extraParams */, function(){
 			      						console.log('uploaded');
 			      					});
-			      					zh.edit(stash[index].name, '{{Awoiaf}}', 'zh.asoiaf.image: image migrated from '+stash[index].descriptionurl , function(){
+			      					zh.edit('File:'+stash[index].name, '{{Awoiaf}}', 'zh.asoiaf.image: image migrated from '+stash[index].descriptionurl , function(){
 			      						console.log(' Migrated');
 			      					});
 
