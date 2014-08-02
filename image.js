@@ -86,10 +86,14 @@ var image_borrow = function(){
 	      				//console.log('not existed');
 		      			for (var index = 0; index < stash.length; index++) {
 		      				if(stash[index].name == data.query.pages['-1'].title){
-		      						console.log(stash[index].name +"ready uploadByUrl");	      				
+		      						console.log(stash[index].name +" ready uploadByUrl");	      				
 		      						zh.uploadByUrl(stash[index].name, stash[index].url, 'zh.asoiaf.image: image migrated from '+stash[index].descriptionurl /* or extraParams */, function(){
-			      						console.log(stash[index].name+' Migrated');
+			      						console.log(uploaded);
 			      					});
+			      					zh.edit(stash[index].name, '{{Awoiaf}}', 'zh.asoiaf.image: image migrated from '+stash[index].descriptionurl , function(){
+			      						console.log(' Migrated');
+			      					});
+
 		      				}
 		      	
 		      				
