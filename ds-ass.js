@@ -10,12 +10,11 @@ var client = new bot({
       "concurrency": 10              
 });
 var lg = false;
-
 var Set = function() {}
 Set.prototype.add = function(o) { this[o] = true; }
 Set.prototype.remove = function(o) { delete this[o]; }
 var stash = new Set();
-var ds = function(){
+var ds_ass = function(){
 	var self = this;	
 	self.execute = function() {
 		try{
@@ -579,4 +578,4 @@ var ds = function(){
 
 }
 
-module.exports = ds;
+module.exports = ds_ass;
