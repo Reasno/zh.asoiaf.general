@@ -4,9 +4,9 @@ var client = new bot({
       "server": "zh.asoiaf.wikia.com", 
       "path": "",                  
       "debug": true,               
-      "username": '瓦格哈尔',         
-      "password": 'fireandblood',            
-      "userAgent": "Custom UA",    
+      "username": process.env.USERNAME,         
+      "password": process.env.PASSWORD,          
+      "userAgent": "zh.asoiaf.DS",    
       "concurrency": 10              
 });
 var lg = false;
