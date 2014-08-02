@@ -1,0 +1,28 @@
+{
+  "name": "zh.asoiaf.DS",
+  "version": "0.0.0",
+  "description": "Adding default sort",
+  "main": "web.js",
+  "dependencies": {
+    "express": "^4.7.2",
+    "nodemw": "^0.3.15"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Reasno/zh.asoiaf.general.git"
+  },
+  "keywords": [
+    "zh.asoiaf",
+    "Mediawiki"
+  ],
+  "author": "reasno",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Reasno/zh.asoiaf.general/issues"
+  },
+  "homepage": "https://github.com/Reasno/zh.asoiaf.general"
+}
