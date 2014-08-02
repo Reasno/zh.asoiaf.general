@@ -13,7 +13,7 @@ var port = process.env.PORT || 5577;
 var server = app.listen(port, function() {
   console.log('Server start...');
   //sync(); // sync the first time when server start up
-  setInterval(call, 25000);
+  setInterval(call, 60000);
 });
 
 var call = function() {
