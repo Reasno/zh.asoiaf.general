@@ -1,5 +1,6 @@
 var http = require('http');
 var express = require('express');
+var schedule = require('node-schedule');
 var ds = require('./ds.js');
 var ds_instance = new ds();
 var app = express();
@@ -11,9 +12,13 @@ app.get('/ds', function(req, res) {
 
 var port = process.env.PORT || 5577;
 var server = app.listen(port, function() {
-  console.log('Server start...');
-  //sync(); // sync the first time when server start up
-  setInterval(call, 60000);
+	console.log('Server start...');
+	var rule = new schedule.RecurrenceRule();
+	rule.second = 1;
+	var j = schedule.scheduleJob(rule, function(){
+		call();
+	    console.log('The answer to life, the universe, and everything!');
+	});
 });
 
 var call = function() {

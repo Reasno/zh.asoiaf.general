@@ -1,7 +1,7 @@
 var bot = require('nodemw');
 // read config from external file
 var client = new bot({
-      "server": "zh.asoiaf.wikia.com", 
+      "server": "zh.assassinscreed.wikia.com", 
       "path": "",                  
       "debug": true,               
       "username": process.env.USERNAME,         
@@ -94,7 +94,12 @@ var ds = function(){
 						        if (j>-1){
 						              hz = hz.substring(j+1);
 						        }
-						        var temp = capitaliseFirstLetter(trim1(CC2PY(hz)));
+						        //var temp = capitaliseFirstLetter(trim1(CC2PY(hz)));
+						        var arr = CC2PY(hz).split(" ");
+						        var temp = '';
+						        for (var m=0 ; m<arr.length;m++){
+						        	temp = temp + capitaliseFirstLetter(arr[m]);
+						        }
 						        var str = "{{DEFAULTSORT:"+temp+"}}";	
 						        if (my_ns == 10){
 						        	str = "<noinclude>"+str+"</noinclude>";
