@@ -7,7 +7,7 @@ var zh = new bot({
 	"username": process.env.USERNAME,         
 	"password": process.env.PASSWORD,          
 	"userAgent": "zh.asoiaf.image",    
-	"concurrency": 10              
+	"concurrency": 1             
 });
 var en = new bot({
 	"server": "awoiaf.westeros.org", 
@@ -16,7 +16,7 @@ var en = new bot({
 	"username": process.env.EN_USERNAME,         
 	"password": process.env.EN_PASSWORD,          
 	"userAgent": "zh.asoiaf.image",    
-	"concurrency": 10              
+	"concurrency": 1             
 });
 var lg = false;
 
@@ -86,9 +86,10 @@ var image_borrow = function(){
 	      				//console.log('not existed');
 		      			for (var index = 0; index < stash.length; index++) {
 		      				if(stash[index].name == data.query.pages['-1'].title){
-		      					zh.uploadByUrl(stash[index].name, stash[index].url, 'zh.asoiaf.image: image migrated from '+stash[index].descriptionurl /* or extraParams */, function(){
-		      						console.log(name+' Migrated');
-		      					});
+		      						console.log(stash[index].name +"ready uploadByUrl");	      				
+		      						zh.uploadByUrl(stash[index].name, stash[index].url, 'zh.asoiaf.image: image migrated from '+stash[index].descriptionurl /* or extraParams */, function(){
+			      						console.log(stash[index].name+' Migrated');
+			      					});
 		      				}
 		      	
 		      				

@@ -23,10 +23,14 @@ var port = process.env.PORT || 5577;
 var server = app.listen(port, function() {
 	console.log('Server start...');
 	call('/image_borrow');
-	setInterval(call('/ds'),process.env.SERVICE_INTERVAL||180000);
+	//setInterval(call('/ds'),process.env.SERVICE_INTERVAL||180000);
 	var j = schedule.scheduleJob({hour: 14, minute: 30, dayOfWeek: 2}, function(){
-		
+		call('/ds');
 		call('/image_borrow');
+	    console.log('The answer to life, the universe, and everything!');
+	});
+	var jj = schedule.scheduleJob({second:2}, function(){
+		call('/ds');
 	    console.log('The answer to life, the universe, and everything!');
 	});
 });

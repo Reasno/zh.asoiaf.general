@@ -7,7 +7,7 @@ var client = new bot({
       "username": process.env.USERNAME,         
       "password": process.env.PASSWORD,          
       "userAgent": "zh.asoiaf.DS",    
-      "concurrency": 10              
+      "concurrency": 1              
 });
 var lg = false;
 var Set = function() {}
