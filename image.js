@@ -81,11 +81,13 @@ var image_borrow = function(){
 	      			format : 'json'
 	      		}
 	      		zh.api.call(params,function(info,next,data){
-	      			//console.log(data);
+	      			//console.log(data);we
 	      			if(data.query.pages['-1']){
-	      				//console.log('not existed');
+	      				console.log('not existed');
 		      			for (var index = 0; index < stash.length; index++) {
-		      				if(stash[index].name == data.query.pages['-1'].title){
+		      				//console.log(('File:'+stash[index].name) +'\\\\\\\\\\\\'+data.query.pages['-1'].title );	
+		      				var str = data.query.pages['-1'].title;
+		      				if(('File:'+stash[index].name) == str.replace(' ','_')){
 		      						console.log(stash[index].name +" ready uploadByUrl");	      				
 		      						zh.uploadByUrl(stash[index].name, stash[index].url, 'zh.asoiaf.image: image migrated from '+stash[index].descriptionurl /* or extraParams */, function(){
 			      						console.log('uploaded');
@@ -115,7 +117,7 @@ var image_borrow = function(){
 	   var writeFile = function(res, filename, format) {
 	   };
 	   var _getAllImage = function(client, isBot, format, callback) {
-			   	console.log('I am here');
+			   	//console.log('I am here');
 			   	var res = {
 			   		'dict': {}, 
 			   		'noen': [], 
@@ -156,7 +158,7 @@ var image_borrow = function(){
 			   			reqAll.errCnt = 0;
 			   		}
 			   		client.api.call(reqAll.params, apiCallback); 
-				    reqAll.timeout = setTimeout(waitTimeout, 10000); // wait for 10 seconds until TIMEOUT
+				    reqAll.timeout = setTimeout(waitTimeout, 100000); // wait for 10 seconds until TIMEOUT
 				};
 				var apiCallback = function(info, next, data) {
 				      if (!reqAll.timeout) { // timeout has been cleared, this callback is called after TIMEOUT, discard it
