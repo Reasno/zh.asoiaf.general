@@ -77,7 +77,7 @@ var image_borrow = function(){
 	      	try{
 	      		var params = {
 	      			action :'query',
-	      			titles : name,
+	      			titles : 'File:'+name,
 	      			format : 'json'
 	      		}
 	      		zh.api.call(params,function(info,next,data){
