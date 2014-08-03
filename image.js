@@ -83,11 +83,11 @@ var image_borrow = function(){
 	      		zh.api.call(params,function(info,next,data){
 	      			//console.log(data);we
 	      			if(data.query.pages['-1']){
-	      				console.log('not existed');
+	      				//console.log('not existed');
 		      			for (var index = 0; index < stash.length; index++) {
 		      				//console.log(('File:'+stash[index].name) +'\\\\\\\\\\\\'+data.query.pages['-1'].title );	
 		      				var str = data.query.pages['-1'].title;
-		      				if(('File:'+stash[index].name) == str.replace('/ /g','_')){
+		      				if(('File:'+stash[index].name) == str.replace(/ /g,'_')){
 		      						console.log(stash[index].name +" ready uploadByUrl");	      				
 		      						zh.uploadByUrl(stash[index].name, stash[index].url, 'zh.asoiaf.image: image migrated from '+stash[index].descriptionurl /* or extraParams */, function(){
 			      						console.log('uploaded');
