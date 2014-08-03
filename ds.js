@@ -49,7 +49,7 @@ var ds = function(){
 		client.getCategories(function(data){
 			//console.log(JSON.stringify(data));
 			var obj  = JSON.parse(JSON.stringify(data)) ;
-				var checker = Math.floor((Math.random() * (obj.length-1))); 
+				var checker = Math.floor((Math.random() * (obj.length))); 
 				client.getPagesInCategory(obj[checker], function(data){			
 					var titles  = JSON.parse(JSON.stringify(data)) ;
 					for (var k=0 ; k<titles.length;k++){
