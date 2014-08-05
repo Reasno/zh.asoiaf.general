@@ -80,6 +80,7 @@ var image_borrow = function(){
 	      			titles : 'File:'+name,
 	      			format : 'json'
 	      		}
+
 	      		zh.api.call(params,function(info,next,data){
 	      			//console.log(data);we
 	      			if(data.query.pages['-1']){
@@ -88,12 +89,12 @@ var image_borrow = function(){
 		      				//console.log(('File:'+stash[index].name) +'\\\\\\\\\\\\'+data.query.pages['-1'].title );	
 		      				var str = data.query.pages['-1'].title;
 		      				if(('File:'+stash[index].name) == str.replace(/ /g,'_')){
-		      						console.log(stash[index].name +" ready uploadByUrl");	      				
+		      						//console.log(stash[index].name +" ready uploadByUrl");	      				
 		      						zh.uploadByUrl(stash[index].name, stash[index].url, 'zh.asoiaf.image: image migrated from '+stash[index].descriptionurl /* or extraParams */, function(){
-			      						console.log('uploaded');
+			      						//console.log('uploaded');
 			      					});
 			      					zh.edit('File:'+stash[index].name, '{{Awoiaf}}', 'zh.asoiaf.image: image migrated from '+stash[index].descriptionurl , function(){
-			      						console.log(' Migrated');
+			      						//console.log(' Migrated');
 			      					});
 
 		      				}
@@ -134,6 +135,7 @@ var image_borrow = function(){
 			   		errCnt: 0, 
 			   		timeout: undefined
 			   	};
+
 			   	var log = function(info) {
 			   		console.log('[getAll] ' + info);
 			   	};    
