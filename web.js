@@ -36,7 +36,7 @@ var server = app.listen(port, function() {
 	    console.log('The answer to life, the universe, and everything!');
 	});
 	var jj = schedule.scheduleJob({second:2}, function(){
-		//call('/ds');
+		  call('/ds');
 	    console.log('The answer to life, the universe, and everything!');
 	});
 });
