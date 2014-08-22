@@ -10,6 +10,16 @@
     "userAgent": "zh.asoiaf.DS",    
     "concurrency": 10              
   });
+    var t = function getTemplateParamFromXml(tmplXml, paramName) {
+      paramName = paramName.
+        trim().
+        replace('-', '\\-');
+
+      var re = new RegExp('<part><name>\\s*' + paramName + '\\s*<\/name>=<value>([^>]+)<\/value>'),
+        matches = tmplXml.match(re);
+
+      return matches && matches[1].trim() || false;
+    };
 var redirect = function() {
 
 
@@ -309,7 +319,7 @@ var redirect = function() {
   var getValue = function(title){
     client.getArticle(title, function(data){
       client.expandTemplates("$$$"+title+"$$$"+data, title, function(data){
-        var target = client.getTemplateParamFromXml(data, "Alias");
+        var target = t(data, "Alias");
         console.log(target);
         data = data.trim().replace('-', '\\-');
         var re = new RegExp('\\$\\$\\$([^>]+)\\$\\$\\$');
@@ -336,6 +346,9 @@ var redirect = function() {
       })
     })
   }
+
+
+
   var read = function(data, res, client) {
     var pages = data.query.pages;
     for (var pid in pages) {
