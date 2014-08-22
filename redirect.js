@@ -334,8 +334,12 @@ var redirect = function() {
             }
             console.log(title+"<-"+aliases[a]);
             try{
-              var redirectPage = aliases[a].trim().replace(/\[/g,"").replace("/\]/g","").replace("/\{/g","").replace(/\}/g,"").replace(/(<([^>]+)>)/ig,"");
-              setTimeout(client.edit(redirectPage+"("+title+")", "#REDIRECT [["+title+"]]", "zh.asoiaf.redirect", function(data){console.log(aliases[a].trim()+'Alias edit made');}),5000);
+              var s = aliases[a].trim().replace(/(<([^>]+)>)/ig,"");
+              s = s.replace(/\[/g,"");
+              s = s.replace(/\]/g,"");
+              s = s.replace(/\{/g,"");
+              s = s.replace(/\}/g,"");
+              setTimeout(client.edit(s+"("+title+")", "#REDIRECT [["+title+"]]", "zh.asoiaf.redirect", function(data){console.log(aliases[a].trim()+'Alias edit made');}),5000);
               //strip strip strip
 
             }catch(err){
