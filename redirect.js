@@ -324,7 +324,10 @@ var redirect = function() {
             }
             console.log(title+"<-"+aliases[a]);
             try{
-              setTimeout(client.edit(aliases[a].trim()+"("+title+")", "#REDIRECT [["+title+"]]", "zh.asoiaf.redirect", function(data){console.log(aliases[a].trim()+'edit made');}),5000);
+              var redirectPage = aliased[a].trim().replace("[","","g").replace("]","","g").replace("{","","g").replace("}","","g").replace(/(<([^>]+)>)/ig,"");
+              setTimeout(client.edit(redirectPage+"("+title+")", "#REDIRECT [["+title+"]]", "zh.asoiaf.redirect", function(data){console.log(aliases[a].trim()+'Alias edit made');}),5000);
+              //strip strip strip
+
             }catch(err){
               console.log(err);
             }
@@ -362,7 +365,7 @@ var redirect = function() {
         }else{
           try{
             if (res.dict[title]!=""){
-              setTimeout(client.edit(res.dict[title], "#REDIRECT [["+title+"]]", "zh.asoiaf.redirect", function(data){console.log('edit made');}),5000);
+              setTimeout(client.edit(res.dict[title], "#REDIRECT [["+title+"]]", "zh.asoiaf.redirect", function(data){console.log('English name edit made');}),5000);
             }
           }catch(err){
             console.log(err);//ignore errs.
