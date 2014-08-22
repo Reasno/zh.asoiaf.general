@@ -42,7 +42,19 @@ var redirect = function() {
 
       client.logIn(function(data){
         console.log(data);
-        _getAll(client, isBot, "JSON", function(data){});
+        try{
+          _getAll(client, isBot, "JSON", function(data){});
+        }catch(err){
+                  try{
+          _getAll(client, isBot, "JSON", function(data){});
+        }catch(err){
+                  try{
+          _getAll(client, isBot, "JSON", function(data){});
+        }catch(err){
+          console.log(err);
+        }
+        }
+        }
       });
     }catch(err){
 
@@ -356,6 +368,7 @@ var redirect = function() {
   var read = function(data, res, client) {
     var pages = data.query.pages;
     for (var pid in pages) {
+
       var page = pages[pid];
       var title = page.title;
       var langlinks = page.langlinks;
@@ -367,6 +380,11 @@ var redirect = function() {
       //     }
       //   }
       // }
+      var temp = title.replace(/\s*/g,"_").replace(/\(/g,"").replace(/\)/g,"").replace(/\'/g,"").replace(/\"/g,"").replace(/\./g,"").replace(/\-/g,"").replace(/\,/g,"");
+      var valid = /^\w*$/.test(temp);
+      if(valid){
+        continue;
+      }
       getValue(title);
       if (langlinks != undefined) {
         for (var i = 0; i < langlinks.length; ++i) {
