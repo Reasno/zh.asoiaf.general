@@ -341,7 +341,7 @@ var redirect = function() {
         if(target && title && target != ""){
           var aliases = target.split(/\&lt\;br\s*\/?\&gt\;/g);
           for(var a in aliases) {
-            if (!aliases[a]||aliases[a].trim()===""){
+            if (!aliases[a]||aliases[a].trim()===""||title === asliases[a].trim()){
               break;
             }
             console.log(title+"<-"+aliases[a]);
@@ -351,7 +351,7 @@ var redirect = function() {
               s = s.replace(/\]/g,"");
               s = s.replace(/\{/g,"");
               s = s.replace(/\}/g,"");
-              setTimeout(client.edit(s+"("+title+")", "#REDIRECT [["+title+"]]", "zh.asoiaf.redirect", function(data){console.log(aliases[a].trim()+'Alias edit made');}),5000);
+              setTimeout(client.edit(s+"("+title+")", "#REDIRECT [["+title+"]]", "zh.asoiaf.redirect", function(data){console.log('Alias edit made'+data);}),5000);
               //strip strip strip
 
             }catch(err){
@@ -400,7 +400,7 @@ var redirect = function() {
         }else{
           try{
             if (res.dict[title]!=""){
-              setTimeout(client.edit(res.dict[title], "#REDIRECT [["+title+"]]", "zh.asoiaf.redirect", function(data){console.log('English name edit made');}),5000);
+              setTimeout(client.edit(res.dict[title], "#REDIRECT [["+title+"]]", "zh.asoiaf.redirect", function(data){console.log('English name edit made'+data);}),5000);
             }
           }catch(err){
             console.log(err);//ignore errs.
