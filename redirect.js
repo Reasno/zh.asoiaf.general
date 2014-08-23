@@ -341,7 +341,7 @@ var redirect = function() {
         if(target && title && target != ""){
           var aliases = target.split(/\&lt\;br\s*\/?\&gt\;/g);
           for(var a in aliases) {
-            if (!aliases[a]||aliases[a].trim()===""||title === asliases[a].trim()){
+            if (!aliases[a]||aliases[a].trim()===""||title === aliases[a].trim()){
               break;
             }
             console.log(title+"<-"+aliases[a]);
