@@ -331,7 +331,8 @@ var redirect = function() {
   var getValue = function(title){
     client.getArticle(title, function(data){
       client.expandTemplates("$$$"+title+"$$$"+data, title, function(data){
-        var target = t(data, "Alias") + t(data,"alias");
+        var target = t(data, "Alias");
+        target = target?target:t(data,"alias");
         console.log(target);
         data = data.trim().replace('-', '\\-');
         var re = new RegExp('\\$\\$\\$([^>]+)\\$\\$\\$');
