@@ -189,6 +189,7 @@ var redirect = function() {
               s = s.replace(/\}/g,"");
               s = s.replace(/\"/g,"");
               s = s.replace(/“/g,"");
+              s = s.replace(/”/g,"");
               setTimeout(create(client, s, "#REDIRECT [["+title+"]]", "zh.asoiaf.redirect", function(data){console.log('Alias edit made');}),5000);
               //strip strip strip
 
