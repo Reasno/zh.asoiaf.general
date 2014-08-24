@@ -34,7 +34,7 @@ var exclusiveFlag = false;
 var port = process.env.PORT || 5577;
 var server = app.listen(port, function() {
 	console.log('Server start...');
-  //call('/redirect');
+  call('/redirect');
   //call('/image_borrow');
 	//call('/category');
 	//setInterval(call('/ds'),process.env.SERVICE_INTERVAL||180000);
