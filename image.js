@@ -1,3 +1,9 @@
+/**
+/* ds.js 
+/* this script will copy images from one wiki to another automatically.
+/*
+/* @author Reasno based on the work of Chenyang Chen.
+/* Please ignore all dict prototype. It is copied from Chenyang‘s zh.asoiaf.dict */
 var bot = require('nodemw');
 // read config from external file
 var zh = new bot({
@@ -36,11 +42,13 @@ var image_borrow = function(){
 					return;
 				}
 				try{
-					where_are_my_dragons(zh);
-				}catch(err){
+					_getAllImage(en,true,'json',function(){
+						console.log('done');
+					});				}catch(err){
 					try{
-						where_are_my_dragons(zh);
-					}catch(err){
+						_getAllImage(en,true,'json',function(){
+							console.log('done');
+						});					}catch(err){
 						return
 					}
 				}
@@ -50,18 +58,9 @@ var image_borrow = function(){
 
 		}
 	}
-
-	var where_are_my_dragons = function(bot) {
-		console.log('all images');
-		
-		_getAllImage(en,true,'json',function(){
-			console.log('done');
-		});
-
-	}
 	  /*
-   * data: raw data get from api
-   * res: dict object
+   * 
+   * move all images
    */ 
    var read = function(data, res) {
    	var images = data.query.allimages;
@@ -113,10 +112,12 @@ var image_borrow = function(){
    };
 
 	  /*
-	   * res: dict object
+	   * this funcion is a place holder. Not needed
 	   */
 	   var writeFile = function(res, filename, format) {
 	   };
+	   /**
+	   /* raw function */
 	   var _getAllImage = function(client, isBot, format, callback) {
 			   	//console.log('I am here');
 			   	var res = {

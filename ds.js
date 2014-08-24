@@ -1,15 +1,19 @@
+/**
+/* ds.js 
+/* this script will create Pinyin defaultsort on each page automatically.
+/*
+/* @author Reasno based on the work of Chenyang Chen.
+/* Please ignore all dict prototype. It is copied from Chenyang‘s zh.asoiaf.dict */
 var bot = require('nodemw');
-// read config from external file
 var client = new bot({
-      "server": "zh.asoiaf.wikia.com", 
-      "path": "",                  
-      "debug": true,               
-      "username": process.env.USERNAME,         
-      "password": process.env.PASSWORD,          
-      "userAgent": "zh.asoiaf.DS",    
-      "concurrency": 1              
+	"server": "zh.asoiaf.wikia.com", 
+	"path": "",                  
+	"debug": true,               
+	"username": process.env.USERNAME,         
+	"password": process.env.PASSWORD,          
+	"userAgent": "zh.asoiaf.DS",    
+	"concurrency": 1              
 });
-var lg = false;
 
 var Set = function() {}
 Set.prototype.add = function(o) { this[o] = true; }
@@ -21,19 +25,11 @@ var ds = function(){
 		try{
 
 			client.logIn(function(data){
-				console.log(data);
-				var login  = JSON.parse(JSON.stringify(data)) ;
-				if(login.result == 'Success'){
-					lg = true;
-				}else{
-					lg = false;
-					return;
-				}
 				try{
-					where_are_my_dragons(client);
+					categoryPatrol(client);
 				}catch(err){
 					try{
-						where_are_my_dragons(client);
+						categoryPatrol(client);
 					}catch(err){
 						return
 					}
@@ -44,42 +40,40 @@ var ds = function(){
 
 		}
 	}
-
-	var where_are_my_dragons = function(bot) {
+	/* select a random category to patrol. */
+	var categoryPatrol = function(bot) {
 		client.getCategories(function(data){
 			//console.log(JSON.stringify(data));
 			var obj  = JSON.parse(JSON.stringify(data)) ;
-				var checker = Math.floor((Math.random() * (obj.length))); 
-				client.getPagesInCategory(obj[checker], function(data){			
-					var titles  = JSON.parse(JSON.stringify(data)) ;
-					for (var k=0 ; k<titles.length;k++){
-						//console.log(titles[k].title);
-						var params = {
-							action :'query',
-							prop :'revisions',
-							rvprop : 'content',
-							format : 'JSON',
-							titles : titles[k].title
-						}
-						//sleep.sleep(2);
-						client.api.call(params,function(data){	
-							var content = JSON.stringify(data);
-							content = escapeRegExp(content);
-							var my_obj = JSON.parse(JSON.stringify(data));
-							var my_title ='';
-							var my_ns='';
-							var my_content ='';
-							for (var l in my_obj['pages']){
-								for (var m in my_obj['pages'][l]){
-									if (m == 'title'){
-										my_title = my_obj['pages'][l]['title'];
-										my_ns = my_obj['pages'][l]['ns'];
+			var rand = Math.floor((Math.random() * (obj.length))); 
+			client.getPagesInCategory(obj[rand], function(data){			
+				var titles  = JSON.parse(JSON.stringify(data)) ;
+				for (var k=0 ; k<titles.length;k++){
+					//console.log(titles[k].title);
+					var params = {
+						action :'query',
+						prop :'revisions',
+						rvprop : 'content',
+						format : 'JSON',
+						titles : titles[k].title
+					}
+					client.api.call(params,function(data){	
+						var content = JSON.stringify(data);
+						content = escapeRegExp(content);
+						var my_obj = JSON.parse(JSON.stringify(data));
+						var my_title ='';
+						var my_ns='';
+						var my_content ='';
+						for (var l in my_obj['pages']){
+							for (var m in my_obj['pages'][l]){
+								if (m == 'title'){
+									my_title = my_obj['pages'][l]['title'];
+									my_ns = my_obj['pages'][l]['ns'];
 
-										try{
-											my_content = my_obj['pages'][l]['revisions'][0]['*'];
-											break;
-										}catch(err){
-											//this is a portal
+									try{
+										my_content = my_obj['pages'][l]['revisions'][0]['*'];
+										break;
+									}catch(err){
 											break;
 										}	
 									}
@@ -91,36 +85,36 @@ var ds = function(){
 							if(content.search('DEFAULTSORT')==-1 && (!(my_title in stash))){
 								//return;
 								var hz = my_title;
-						        var j = hz.indexOf(":");
-						        if (j>-1){
-						              hz = hz.substring(j+1);
-						        }
-						        var temp = capitaliseFirstLetter(trim1(CC2PY(hz)));
+								var j = hz.indexOf(":");
+								if (j>-1){
+									hz = hz.substring(j+1);
+								}
+								var temp = capitaliseFirstLetter(trim1(CC2PY(hz)));
 						        // var arr = CC2PY(hz).split(" ");
 						        // var temp = '';
 						        // for (var m=0 ; m<arr.length;m++){
 						        // 	temp = temp + capitaliseFirstLetter(arr[m]);
 						        // }
 						        var str = "{{DEFAULTSORT:"+temp+"}}";	
-						        if (my_ns == 10){
+						        if (my_ns != 0 && my_ns != 114 ){
 						        	str = "<noinclude>"+str+"</noinclude>";
 						        }
 						        stash.add(my_title);
 						        try{
-							        client.edit(my_title,my_content+str,"zh.asoiaf.DS "+str,function(data){
-										console.log(my_title+"____________________________added__________________________________________");
-							        });	
-							    }catch	(err){
+						        	client.edit(my_title,my_content+str,"zh.asoiaf.DS "+str,function(data){
+						        		//nothing to do.
+						        	});	
+						        }catch	(err){
 							    	//try again
 							    	try{
-								    	client.edit(my_title,my_content+str,"zh.asoiaf.DS "+str,function(data){
-											console.log(my_title+"____________________________added__________________________________________");
-								        });	
-								    }catch(err){
+							    		client.edit(my_title,my_content+str,"zh.asoiaf.DS "+str,function(data){
+							    			//nothing todo.
+							    		});	
+							    	}catch(err){
 								    	//no good, ignore
 								    	console.log(err);
 								    }
-							    }				
+								}				
 								// var params = {
 								// 	action:'edit',
 								// 	title: my_title,
@@ -132,7 +126,7 @@ var ds = function(){
 								// client.api.call(params /* api.php parameters */, function(info /* processed query result */, next, data /* raw data */) {
 								// 	console.log("added");
 								// });
-								
+
 							}else{
 								// if (my_ns == '10'){
 								// 	client.edit(my_title,my_content.replace("/{{DEFAULTSORT:+[^}]+}}/g", ""),"zh.asoiaf.DS fix",function(data){
@@ -141,9 +135,9 @@ var ds = function(){
 								// 	console.log(my_title+"passed");
 								// }
 							}
-													
+
 						});
-					}
+					}//API call end.
 
 					// bot.getArticle(title., callback)
 					// content = escapeRegExp(content);
@@ -153,19 +147,20 @@ var ds = function(){
 					// 	console.log('HAS sort key!!!GTR');
 					// }
 				})
-			
-			
+
+
 		});
 	}
+	/* the rest are some global helpers */
 	function escapeRegExp(str) {
 		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 	}
 	function trim1 (str) {
-	    return str.replace(/\s/g,'').toLowerCase();
+		return str.replace(/\s/g,'').toLowerCase();
 	}
 	function capitaliseFirstLetter(string)
 	{
-	    return string.charAt(0).toUpperCase() + string.slice(1);
+		return string.charAt(0).toUpperCase() + string.slice(1);
 	}
 	var PinYin = {"A":"\u5391\u5416\u554A\u55C4\u9312\u9515\u963F",
 	"Ai":"\u4F0C\u50FE\u51D2\u53C6\u54C0\u54CE\u5509\u5540\u55CC\u55F3\u560A\u566F\u57C3\u5867\u58D2\u5A3E\u5AD2\u5B21\u5D66\u611B\u61D3\u61DD\u6328\u6371\u6571\u6573\u6639\u66A7\u66D6\u6B38\u6BD0\u6EB0\u6EBE\u6FED\u7231\u7477\u74A6\u764C\u7691\u769A\u76A7\u77B9\u77EE\u7839\u784B\u788D\u7919\u827E\u853C\u8586\u85F9\u8B6A\u8B7A\u8CF9\u8EB7\u9384\u9440\u953F\u9698\u972D\u9744\u9749\u9932\u99A4\u9C6B\u9D31",
@@ -567,15 +562,6 @@ var ds = function(){
 	"Nou":"\u5542\u69C8\u6ABD\u7373\u7FBA\u8028\u8B68\u8B73\u9392\u941E",
 	"Fou":"\u5426\u57BA\u599A\u7D11\u7F36\u7F39\u7F3B\u96EC\u9D00"};
 	eval(function(p,a,c,k,e,d){e=function(c){return(c<a?"":e(parseInt(c/a)))+((c=c%a)>35?String.fromCharCode(c+29):c.toString(36))};if(!''.replace(/^/,String)){while(c--)d[e(c)]=k[c]||e(c);k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1;};while(c--)if(k[c])p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c]);return p;}('7 8$=["",\'[a-E-v-9\\- ]\',\' \',\'--\',\'--\',\'-\'," "];k u(a){7 b=a.n;7 c= 8$[0];7 d=A x( 8$[1]);t(7 e=0;e<b;e++){7 f=a.l(e,1);7 h=s(f,m);j(d.w(f)){c+=f}y j(h!==q){c+=h}};c=c.o(/ /g, 8$[2]);z(c.r( 8$[3])>0){c=c.o( 8$[4], 8$[5])};i c};k s(a,b){t(7 c B m){j(m[c].r(a)!=-1){i p(c);C}};i q};k p(a){j(a.n>0){7 b=a.l(0,1).D();7 c=a.l(1,a.n);i b+c+ 8$[6]}}',41,41,'|||||||var|_||||||||||return|if|function|substr|PinYin|length|replace|ucfirst|false|indexOf|arraySearch|for|CC2PY|Z0|test|RegExp|else|while|new|in|break|toUpperCase|zA'.split('|'),0,{}))
-	// var 
-	//     params = {
-	//         action: 'ask',
-	//         query: '[[Modification date::+]]|?Modification date|sort=Modification date|order=desc'
-	//     };
-
-	// client.api.call(params /* api.php parameters */, function(info /* processed query result */, next, data /* raw data */) {
-	//     console.log(data && data.query && data.query.results);
-	// });
 
 }
 
