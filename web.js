@@ -31,19 +31,27 @@ app.get('/redirect', function(req, res) {
 });
 app.post('/rename', function(req, res) {
   //console.log(req);
-  rename_instance.execute(req.body.oldName, req.body.newName);
-  res.redirect('back');
+  if(req.body.password==process.env.PASSWORD){
+    rename_instance.execute(req.body.oldName, req.body.newName);
+    res.redirect('back');
+  }else{
+    res.send('</html>密码错误</html>');
+  }
+
 });
 app.post('/category', function(req, res) {
-  //console.log(req);
-  //cat_instance.execute("Warrior Women", "女性战士", "false");
-  cat_instance.execute(req.body.enName, req.body.zhName, req.body.isImage);
-  res.redirect('back');
+  if(req.body.password==process.env.PASSWORD){
+    cat_instance.execute(req.body.enName, req.body.zhName, req.body.isImage);
+    res.redirect('back');
+  }else{
+    res.send('</html>密码错误</html>');
+  }
 });
 var exclusiveFlag = false;
 var port = process.env.PORT || 5577;
 var server = app.listen(port, function() {
 	console.log('Server start...');
+  //cat_instance.execute("Warrior Women", "女性战士", "false");
   //call('/category?enName=Bastard&zhName=私生子&isImage=false');
   //call('/rename');
   //call('/redirect');

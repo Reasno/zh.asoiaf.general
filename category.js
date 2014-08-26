@@ -119,29 +119,23 @@ var category = function(){
 	}
 	var makeCategory = function (title){
 		console.log(title);
-		//sleep.sleep(2);
-		try{
-			if (!title){
-				return;
-			}
-			zh.getArticle(title,function(data){	
-				console.log(title);
-				//console.log(data);
-				if(data.search('\[\[category:'+stash[1]+'\]\]')!=-1){
-					//console.log('returned');
-					return;
-				}else{
-					//console.log(title);
-					zh.edit(title,data+'\[\[category:'+stash[1]+'\]\]','zh.asoiaf.category',function(data){
-						console.log('category added');
-					})
-				}
-
-			});
-		}catch(err){
-			throw err;
+		//sleep.sleep(2);		
+		if (!title){
+			return;
 		}
+		zh.getArticle(title,function(data){	
+			var re = new RegExp('\\[\\[Category:'+escapeRegExp(stash[1])+'\\]\\]','ig');
+			if(data.search(re)!='-1'){
+				console.log(title+' has returned');
+				return;
+			}else{
+				//console.log(title);
+				zh.edit(title,data+'\[\[category:'+stash[1]+'\]\]','zh.asoiaf.category',function(data){
+					console.log('category added');
+				})
+			}
 
+		});
 	}
 	var where_are_my_dragons = function(bot) {
 		console.log('collecting categories');
