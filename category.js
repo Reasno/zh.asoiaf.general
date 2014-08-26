@@ -139,7 +139,7 @@ var category = function(){
 
 			});
 		}catch(err){
-			return;
+			throw err;
 		}
 
 	}
@@ -150,7 +150,7 @@ var category = function(){
 			console.log(data);
 			var titles  = JSON.parse(JSON.stringify(data));
 			for (var k=0 ; k<titles.length;k++){
-				makeCategory((stash[2])?findInDict(titles[k].title):titles[k].title);				
+				makeCategory((stash[2])?findInDict(titles[k].title):titles[k].title);
 			}
 		});
 	}
