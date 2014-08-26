@@ -7,11 +7,6 @@ var rename = require('./rename.js');
 var image_borrow = require('./image.js');
 var category = require('./category.js');
 var redirect = require('./redirect.js');
-var redirect_instance  = new redirect();
-var ds_instance = new ds();
-var rename_instance = new rename();
-var cat_instance = new category();
-var image_borrow_instance = new image_borrow();
 var app = express();
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use( bodyParser.urlencoded() ); // to support URL-encoded bodies
@@ -26,11 +21,13 @@ app.get('/image_borrow', function(req, res) {
   res.send('Hello World!');
 });
 app.get('/redirect', function(req, res) {
+  var redirect_instance  = new redirect();
   redirect_instance.execute();
   res.send('Hello World!');
 });
 app.post('/rename', function(req, res) {
   //console.log(req);
+  var rename_instance = new rename();
   if(req.body.password==process.env.PASSWORD){
     rename_instance.execute(req.body.oldName, req.body.newName);
     res.redirect('back');
@@ -41,6 +38,7 @@ app.post('/rename', function(req, res) {
 });
 app.post('/category', function(req, res) {
   if(req.body.password==process.env.PASSWORD){
+    var cat_instance = new category();
     cat_instance.execute(req.body.enName, req.body.zhName, req.body.isImage);
     res.redirect('back');
   }else{
@@ -60,6 +58,7 @@ var server = app.listen(port, function() {
 	//setInterval(call('/ds'),process.env.SERVICE_INTERVAL||180000);
   /* weekly task */
 	var weekly = schedule.scheduleJob({hour: 14, minute: 30, dayOfWeek: 2}, function(){
+      var image_borrow_instance = new image_borrow();
       exclusiveFlag = true;
 		  call('/image_borrow');
 	    console.log('The answer to life, the universe, and everything!');
@@ -79,6 +78,7 @@ var server = app.listen(port, function() {
   /* regular task */
 	var secondly= schedule.scheduleJob({second:30}, function(){
       if(!exclusiveFlag){
+        var ds_instance = new ds();
   		  call('/ds');
   	    console.log('The answer to life, the universe, and everything!');
       }
