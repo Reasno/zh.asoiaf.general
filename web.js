@@ -12,11 +12,13 @@ app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use( bodyParser.urlencoded() ); // to support URL-encoded bodies
 
 app.get('/ds', function(req, res) {
+  var ds_instance = new ds();
   ds_instance.execute();
   // ds_ass_instance.execute();
   res.send('Hello World!');
 });
 app.get('/image_borrow', function(req, res) {
+  var image_borrow_instance = new image_borrow();
   image_borrow_instance.execute();
   res.send('Hello World!');
 });
@@ -27,8 +29,8 @@ app.get('/redirect', function(req, res) {
 });
 app.post('/rename', function(req, res) {
   //console.log(req);
-  var rename_instance = new rename();
   if(req.body.password==process.env.PASSWORD){
+    var rename_instance = new rename();
     rename_instance.execute(req.body.oldName, req.body.newName);
     res.redirect('back');
   }else{
@@ -58,7 +60,6 @@ var server = app.listen(port, function() {
 	//setInterval(call('/ds'),process.env.SERVICE_INTERVAL||180000);
   /* weekly task */
 	var weekly = schedule.scheduleJob({hour: 14, minute: 30, dayOfWeek: 2}, function(){
-      var image_borrow_instance = new image_borrow();
       exclusiveFlag = true;
 		  call('/image_borrow');
 	    console.log('The answer to life, the universe, and everything!');
@@ -78,7 +79,6 @@ var server = app.listen(port, function() {
   /* regular task */
 	var secondly= schedule.scheduleJob({second:30}, function(){
       if(!exclusiveFlag){
-        var ds_instance = new ds();
   		  call('/ds');
   	    console.log('The answer to life, the universe, and everything!');
       }
