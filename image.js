@@ -26,8 +26,9 @@ var en = new bot({
 });
 var lg = false;
 
-var stash = [];
+
 var image_borrow = function(){
+	var stash = [];
 	var self = this;	
 	self.execute = function() {
 		try{

@@ -15,11 +15,11 @@ var client = new bot({
 	"concurrency": 1              
 });
 
-var Set = function() {}
-Set.prototype.add = function(o) { this[o] = true; }
-Set.prototype.remove = function(o) { delete this[o]; }
-var stash = new Set();
 var ds = function(){
+	var Set = function() {}
+	Set.prototype.add = function(o) { this[o] = true; }
+	Set.prototype.remove = function(o) { delete this[o]; }
+	var stash = new Set();
 	var self = this;	
 	self.execute = function() {
 		try{

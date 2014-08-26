@@ -29,8 +29,9 @@ var bot = require('nodemw');
 
 var lg = false;
 
-var stash = ['城管','杰诺斯·史林特','Images of Gregor Clegane‎','[[Category:格雷果·克里冈图片]]','Coat of arms images','[[Category:纹章图片]]','Images of Eddard Stark‎','[[Category:艾德·史塔克图片]]','Images of Daenerys Targaryen‎','[[category:丹妮莉丝·坦格利安图片]]','Images of Catelyn Tully‎','[[Category:凯特琳·徒利图片]]','Images of Bran Stark‎','[[Category:布兰·史塔克图片]]','Images of Arya Stark‎','[[category:艾莉亚·史塔克图片]]'];
 var rename = function(){
+  var stash = ['城管','杰诺斯·史林特','Images of Gregor Clegane‎','[[Category:格雷果·克里冈图片]]','Coat of arms images','[[Category:纹章图片]]','Images of Eddard Stark‎','[[Category:艾德·史塔克图片]]','Images of Daenerys Targaryen‎','[[category:丹妮莉丝·坦格利安图片]]','Images of Catelyn Tully‎','[[Category:凯特琳·徒利图片]]','Images of Bran Stark‎','[[Category:布兰·史塔克图片]]','Images of Arya Stark‎','[[category:艾莉亚·史塔克图片]]'];
+
   var self = this
   self.execute = function(oldName, newName) {
     stash[0] = oldName;
