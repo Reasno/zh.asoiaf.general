@@ -36,6 +36,7 @@ app.post('/rename', function(req, res) {
 });
 app.post('/category', function(req, res) {
   //console.log(req);
+  //cat_instance.execute("Warrior Women", "女性战士", "false");
   cat_instance.execute(req.body.enName, req.body.zhName, req.body.isImage);
   res.redirect('back');
 });
@@ -43,6 +44,7 @@ var exclusiveFlag = false;
 var port = process.env.PORT || 5577;
 var server = app.listen(port, function() {
 	console.log('Server start...');
+  //call('/category?enName=Bastard&zhName=私生子&isImage=false');
   //call('/rename');
   //call('/redirect');
   //call('/image_borrow');

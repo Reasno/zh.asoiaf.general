@@ -32,7 +32,9 @@ var category = function(){
 		try{
 			if(isImage=="false"){
 				zh.getArticle("MediaWiki:Common.js/dict", function(data){
-					stash[2] = JSON.parse(JSON.stringify(data));
+					//console.log(data);
+					stash[2] = JSON.parse(data);
+					//console.log(stash[2]);
 					zh.logIn(function(data){
 						console.log(data);
 						var login  = JSON.parse(JSON.stringify(data)) ;
@@ -117,48 +119,20 @@ var category = function(){
 	}
 	var makeCategory = function (title){
 		console.log(title);
-		var params = {
-			action :'query',
-			prop :'revisions',
-			rvprop : 'content',
-			format : 'JSON',
-			titles : title
-		}
 		//sleep.sleep(2);
 		try{
 			if (!title){
 				return;
 			}
-			zh.api.call(params,function(data){	
-				var content = JSON.stringify(data);
-				content = escapeRegExp(content);
-				try{
-					var my_obj = JSON.parse(JSON.stringify(data));
-				}catch(err){
+			zh.getArticle(title,function(data){	
+				console.log(title);
+				//console.log(data);
+				if(data.search('\[\[category:'+stash[1]+'\]\]')!=-1){
+					//console.log('returned');
 					return;
-				}
-				var my_title ='';
-				var my_ns='';
-				var my_content ='';
-				for (var l in my_obj['pages']){
-					for (var m in my_obj['pages'][l]){
-						if (m == 'title'){
-							my_title = my_obj['pages'][l]['title'];
-							my_ns = my_obj['pages'][l]['ns'];
-							try{
-								my_content = my_obj['pages'][l]['revisions'][0]['*'];
-								break;
-							}catch(err){
-								//this is a portal
-								break;
-							}	
-						}
-					}
-				}
-				if(my_content.search('\[\[category:'+stash[1]+'\]\]'))
-					return;
-				else{
-					zh.edit(title,my_content+'\[\[category:'+stash[1]+'\]\]','分类',function(data){
+				}else{
+					//console.log(title);
+					zh.edit(title,data+'\[\[category:'+stash[1]+'\]\]','zh.asoiaf.category',function(data){
 						console.log('category added');
 					})
 				}
@@ -183,10 +157,12 @@ var category = function(){
 	function escapeRegExp(str) {
 		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 	}
-	function findInDict(zhString){
+	function findInDict(enString){
+
 		for(var k in stash[2]){
-			if(stash[2][k] == zhString){
-				return k;
+			//console.log(stash[2][k]+"----"+zhString);
+			if(k == enString){
+				return stash[2][k];
 			}
 		}
 		return false;
