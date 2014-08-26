@@ -48,7 +48,8 @@ var create = function(client, title, content, summary, callback) {
         callback && callback(data);
       }
       else {
-        throw new Error('Edit failed');
+        console.log("page existed:"+title);
+        //throw new Error('Edit failed');
       }
     }, 'POST');
   });
@@ -164,6 +165,7 @@ var redirect = function() {
   };
   //This function creates redirects for each alias
   var makeAlias = function(title){
+
     client.getArticle(title, function(data){
       client.expandTemplates("$$$"+title+"$$$"+data, title, function(data){
         var target = render(data, "Alias");
@@ -188,6 +190,8 @@ var redirect = function() {
               s = s.replace(/\{/g,"");
               s = s.replace(/\}/g,"");
               s = s.replace(/\"/g,"");
+              s = s.replace(/\:/g,"");
+              s = s.replace(/\#/g,"");
               s = s.replace(/“/g,"");
               s = s.replace(/”/g,"");
               setTimeout(create(client, s, "#REDIRECT [["+title+"]]", "zh.asoiaf.redirect", function(data){console.log('Alias edit made');}),5000);

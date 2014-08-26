@@ -2,16 +2,17 @@ var http = require('http');
 var express = require('express');
 var schedule = require('node-schedule');
 var ds = require('./ds.js');
-// var ds_ass = require('./ds-ass.js');
+var rename = require('./rename.js');
 var image_borrow = require('./image.js');
 var category = require('./category.js');
 var redirect = require('./redirect.js');
 var redirect_instance  = new redirect();
 var ds_instance = new ds();
+var rename_instance = new rename();
 var cat_instance = new category();
-// var ds_ass_instance = new ds_ass();
 var image_borrow_instance = new image_borrow();
 var app = express();
+app.use(express.bodyParser());
 app.get('/ds', function(req, res) {
   ds_instance.execute();
   // ds_ass_instance.execute();
@@ -29,12 +30,17 @@ app.get('/redirect', function(req, res) {
   redirect_instance.execute();
   res.send('Hello World!');
 });
+app.post('/rename', function(req, res) {
+  rename_instance.execute(req.body.oldName, req.body.newName);
+  res.redirect('back');
+});
 
 var exclusiveFlag = false;
 var port = process.env.PORT || 5577;
 var server = app.listen(port, function() {
 	console.log('Server start...');
-  call('/redirect');
+  //call('/rename');
+  //call('/redirect');
   //call('/image_borrow');
 	//call('/category');
 	//setInterval(call('/ds'),process.env.SERVICE_INTERVAL||180000);
