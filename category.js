@@ -201,7 +201,7 @@ var category = function(){
 				return k;
 			}
 		}
-		return "";
+		return false;
 	}
 }
 module.exports = category;
