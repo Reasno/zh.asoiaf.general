@@ -156,7 +156,7 @@ var category = function(){
 
 		for(var k in stash[2]){
 			//console.log(stash[2][k]+"----"+zhString);
-			if(k == enString){
+			if(k === enString){
 				return stash[2][k];
 			}
 		}
