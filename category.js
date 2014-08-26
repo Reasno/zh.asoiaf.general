@@ -125,12 +125,13 @@ var category = function(){
 		}
 		zh.getArticle(title,function(data){	
 			var re = new RegExp('\\[\\[Category:'+escapeRegExp(stash[1])+'\\]\\]','ig');
-			if(data.search(re)!='-1'){
+			var re2 = new RegExp('\\[\\[Category:'+escapeRegExp(stash[1])+'\\|','ig');
+			if(data.search(re)!='-1' || data.search(re2)!='-1'){
 				console.log(title+' has returned');
 				return;
 			}else{
 				//console.log(title);
-				zh.edit(title,data+'\[\[category:'+stash[1]+'\]\]','zh.asoiaf.category',function(data){
+				zh.edit(title,data+'\[\[Category:'+stash[1]+'\]\]','zh.asoiaf.category',function(data){
 					console.log('category added');
 				})
 			}
