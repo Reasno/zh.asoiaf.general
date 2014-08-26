@@ -26,7 +26,9 @@ var lg = false;
 var stash = ['Map_Images','[[Category:地图]]','Images of Gregor Clegane‎','[[Category:格雷果·克里冈图片]]','Coat of arms images','[[Category:纹章图片]]','Images of Eddard Stark‎','[[Category:艾德·史塔克图片]]','Images of Daenerys Targaryen‎','[[category:丹妮莉丝·坦格利安图片]]','Images of Catelyn Tully‎','[[Category:凯特琳·徒利图片]]','Images of Bran Stark‎','[[Category:布兰·史塔克图片]]','Images of Arya Stark‎','[[category:艾莉亚·史塔克图片]]'];
 var category = function(){
 	var self = this
-	self.execute = function() {
+	self.execute = function(enName, zhName) {
+		stash[0] = enName;
+		stash[1] = zhName;
 		try{
 
 			zh.logIn(function(data){
@@ -131,7 +133,7 @@ var category = function(){
 									}
 								}
 
-								zh.edit(my_title,my_content+stash[1],'分类',function(data){
+								zh.edit(my_title,my_content+'\[\[category:'+stash[1]+'\]\]','分类',function(data){
 									console.log('category added');
 								})
 

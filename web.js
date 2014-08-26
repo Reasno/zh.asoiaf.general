@@ -34,11 +34,15 @@ app.get('/redirect', function(req, res) {
   res.send('Hello World!');
 });
 app.post('/rename', function(req, res) {
-  console.log(req);
+  //console.log(req);
   rename_instance.execute(req.body.oldName, req.body.newName);
   res.redirect('back');
 });
-
+app.post('/category', function(req, res) {
+  //console.log(req);
+  rename_instance.execute(req.body.enName, req.body.zhName);
+  res.redirect('back');
+});
 var exclusiveFlag = false;
 var port = process.env.PORT || 5577;
 var server = app.listen(port, function() {

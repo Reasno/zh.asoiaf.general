@@ -88,9 +88,9 @@ var rename = function(){
         //console.log(data);
         console.log(title);
         var re = new RegExp('\\[\\['+stash[0]+'\\]\\]',"ig");
-        data = data.replace(re,stash[1]);
+        data = data.replace(re,"\[\["+stash[1]+'\]\]');
         re = new RegExp('\\[\\['+stash[0]+'\\|',"ig");
-        data = data.replace(re,stash[1]);
+        data = data.replace(re,'\[\['+stash[1]+'\|');
         zh.edit(title, data, "zh.asoiaf.rename"+stash[0]+"->"+stash[1],function(data){console.log("success")});
       });
   }
