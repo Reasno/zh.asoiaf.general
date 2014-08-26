@@ -40,7 +40,7 @@ app.post('/rename', function(req, res) {
 });
 app.post('/category', function(req, res) {
   //console.log(req);
-  rename_instance.execute(req.body.enName, req.body.zhName);
+  rename_instance.execute(req.body.enName, req.body.zhName, req.body.isImage);
   res.redirect('back');
 });
 var exclusiveFlag = false;

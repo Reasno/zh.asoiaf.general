@@ -23,14 +23,56 @@ var bot = require('nodemw');
 
 var lg = false;
 
-var stash = ['Map_Images','[[Category:地图]]','Images of Gregor Clegane‎','[[Category:格雷果·克里冈图片]]','Coat of arms images','[[Category:纹章图片]]','Images of Eddard Stark‎','[[Category:艾德·史塔克图片]]','Images of Daenerys Targaryen‎','[[category:丹妮莉丝·坦格利安图片]]','Images of Catelyn Tully‎','[[Category:凯特琳·徒利图片]]','Images of Bran Stark‎','[[Category:布兰·史塔克图片]]','Images of Arya Stark‎','[[category:艾莉亚·史塔克图片]]'];
+var stash = ['Map_Images','[[Category:地图]]','','[[Category:格雷果·克里冈图片]]','Coat of arms images','[[Category:纹章图片]]','Images of Eddard Stark‎','[[Category:艾德·史塔克图片]]','Images of Daenerys Targaryen‎','[[category:丹妮莉丝·坦格利安图片]]','Images of Catelyn Tully‎','[[Category:凯特琳·徒利图片]]','Images of Bran Stark‎','[[Category:布兰·史塔克图片]]','Images of Arya Stark‎','[[category:艾莉亚·史塔克图片]]'];
 var category = function(){
 	var self = this
-	self.execute = function(enName, zhName) {
+	self.execute = function(enName, zhName, isImage) {
 		stash[0] = enName;
 		stash[1] = zhName;
 		try{
+			if(isImage=="false"){
+				zh.getArticle("MediaWiki:Common.js/dict", function(data){
+					stash[2] = JSON.parse(JSON.stringify(data));
+					zh.logIn(function(data){
+						console.log(data);
+						var login  = JSON.parse(JSON.stringify(data)) ;
+						if(login.result == 'Success'){
+							lg = true;
+						}else{
+							lg = false;
+							return;
+						}
+						try{
+							where_are_my_dragons(zh);
+						}catch(err){
+							try{
+								where_are_my_dragons(zh);
+							}catch(err){
+								return
+							}
+						}
+						try{
+							where_are_my_dragons(zh);
+						}catch(err){
+							try{
+								where_are_my_dragons(zh);
+							}catch(err){
+								return
+							}
+						}
+						try{
+							where_are_my_dragons(zh);
+						}catch(err){
+							try{
+								where_are_my_dragons(zh);
+							}catch(err){
+								return
+							}
+						}
 
+					});
+				});
+			}
 			zh.logIn(function(data){
 				console.log(data);
 				var login  = JSON.parse(JSON.stringify(data)) ;
@@ -94,17 +136,19 @@ var category = function(){
 					var entity  = JSON.parse(JSON.stringify(data));
 					for(var i in entity.pages){
 						
-						
 						console.log(entity.pages[i].title);
 						var params = {
 							action :'query',
 							prop :'revisions',
 							rvprop : 'content',
 							format : 'JSON',
-							titles : entity.pages[i].title
+							titles : isImage=="true"?entity.pages[i].title:findInDict(entity.pages[i].title)
 						}
 						//sleep.sleep(2);
 						try{
+							if (!params.titles){
+								continue;
+							}
 							zh.api.call(params,function(data){	
 								var content = JSON.stringify(data);
 								content = escapeRegExp(content);
@@ -121,7 +165,6 @@ var category = function(){
 										if (m == 'title'){
 											my_title = my_obj['pages'][l]['title'];
 											my_ns = my_obj['pages'][l]['ns'];
-
 											try{
 												my_content = my_obj['pages'][l]['revisions'][0]['*'];
 												break;
@@ -151,6 +194,14 @@ var category = function(){
 	}
 	function escapeRegExp(str) {
 		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	}
+	function findInDict(zhString){
+		for(var k in stash[2]){
+			if(stash[2][k] == zhString){
+				return k;
+			}
+		}
+		return "";
 	}
 }
 module.exports = category;
