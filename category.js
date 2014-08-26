@@ -115,7 +115,7 @@ var category = function(){
 
 		}
 	}
-	var makeCateogry(title){
+	var makeCategory = function (title){
 		console.log(title);
 		var params = {
 			action :'query',
