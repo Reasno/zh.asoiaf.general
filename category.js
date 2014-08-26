@@ -116,6 +116,7 @@ var category = function(){
 		}
 	}
 	var makeCateogry(title){
+		console.log(title);
 		var params = {
 			action :'query',
 			prop :'revisions',
@@ -161,8 +162,6 @@ var category = function(){
 						console.log('category added');
 					})
 				}
-
-
 
 			});
 		}catch(err){
