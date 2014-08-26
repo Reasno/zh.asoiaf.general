@@ -115,6 +115,61 @@ var category = function(){
 
 		}
 	}
+	var makeCateogry(title){
+		var params = {
+			action :'query',
+			prop :'revisions',
+			rvprop : 'content',
+			format : 'JSON',
+			titles : title
+		}
+		//sleep.sleep(2);
+		try{
+			if (!title){
+				return;
+			}
+			zh.api.call(params,function(data){	
+				var content = JSON.stringify(data);
+				content = escapeRegExp(content);
+				try{
+					var my_obj = JSON.parse(JSON.stringify(data));
+				}catch(err){
+					return;
+				}
+				var my_title ='';
+				var my_ns='';
+				var my_content ='';
+				for (var l in my_obj['pages']){
+					for (var m in my_obj['pages'][l]){
+						if (m == 'title'){
+							my_title = my_obj['pages'][l]['title'];
+							my_ns = my_obj['pages'][l]['ns'];
+							try{
+								my_content = my_obj['pages'][l]['revisions'][0]['*'];
+								break;
+							}catch(err){
+								//this is a portal
+								break;
+							}	
+						}
+					}
+				}
+				if(my_content.find('\[\[category:'+stash[1]+'\]\]'){
+					return;
+				}else{
+					zh.edit(title,my_content+'\[\[category:'+stash[1]+'\]\]','分类',function(data){
+						console.log('category added');
+					})
+				}
+
+
+
+			});
+		}catch(err){
+			return;
+		}
+
+	}
 	var where_are_my_dragons = function(bot) {
 		console.log('collecting categories');
 		
@@ -122,73 +177,7 @@ var category = function(){
 			console.log(data);
 			var titles  = JSON.parse(JSON.stringify(data));
 			for (var k=0 ; k<titles.length;k++){
-				//console.log(titles[k].title);
-				var params = {
-					action :'query',
-					prop :'categories',
-					rvprop : 'content',
-					format : 'JSON',
-					titles : titles[k].title
-				}
-
-				//sleep.sleep(2);
-				en.api.call(params,function(data){	
-					var entity  = JSON.parse(JSON.stringify(data));
-					for(var i in entity.pages){
-						
-						console.log(entity.pages[i].title);
-						var params = {
-							action :'query',
-							prop :'revisions',
-							rvprop : 'content',
-							format : 'JSON',
-							titles : (!stash[2])?entity.pages[i].title:findInDict(entity.pages[i].title)
-						}
-						//sleep.sleep(2);
-						try{
-							if (!params.titles){
-								continue;
-							}
-							zh.api.call(params,function(data){	
-								var content = JSON.stringify(data);
-								content = escapeRegExp(content);
-								try{
-									var my_obj = JSON.parse(JSON.stringify(data));
-								}catch(err){
-									return;
-								}
-								var my_title ='';
-								var my_ns='';
-								var my_content ='';
-								for (var l in my_obj['pages']){
-									for (var m in my_obj['pages'][l]){
-										if (m == 'title'){
-											my_title = my_obj['pages'][l]['title'];
-											my_ns = my_obj['pages'][l]['ns'];
-											try{
-												my_content = my_obj['pages'][l]['revisions'][0]['*'];
-												break;
-											}catch(err){
-												//this is a portal
-												break;
-											}	
-										}
-									}
-								}
-
-								zh.edit(my_title,my_content+'\[\[category:'+stash[1]+'\]\]','分类',function(data){
-									console.log('category added');
-								})
-
-							});
-						}catch(err){
-							return;
-						}
-
-					}
-				});
-
-
+				makeCategory((stash[2])?findInDict(titles[k].title)):titles[k].title;				
 			}
 		});
 	}
@@ -201,7 +190,7 @@ var category = function(){
 				return k;
 			}
 		}
-		return "";
+		return false;
 	}
 }
 module.exports = category;
