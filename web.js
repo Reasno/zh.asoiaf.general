@@ -51,18 +51,10 @@ var exclusiveFlag = false;
 var port = process.env.PORT || 5577;
 var server = app.listen(port, function() {
 	console.log('Server start...');
-  //cat_instance.execute("Warrior Women", "女性战士", "false");
-  //call('/category?enName=Bastard&zhName=私生子&isImage=false');
-  //call('/rename');
-  //call('/redirect');
-  //call('/image_borrow');
-	//call('/category');
-	//setInterval(call('/ds'),process.env.SERVICE_INTERVAL||180000);
-  /* weekly task */
 	var weekly = schedule.scheduleJob({hour: 14, minute: 30, dayOfWeek: 2}, function(){
       exclusiveFlag = true;
 		  call('/image_borrow');
-	    console.log('The answer to life, the universe, and everything!');
+	    
 	});
   var weeklyWindowClosure = schedule.scheduleJob({hour: 15, minute: 20, dayOfWeek: 2}, function(){
       exclusiveFlag = false;
@@ -71,16 +63,16 @@ var server = app.listen(port, function() {
   var daily = schedule.scheduleJob({hour: 2, minute: 30}, function(){
       exclusiveFlag = true;
       call('/redirect');
-      console.log('The answer to life, the universe, and everything!');
   });
   var dailyWindowclosure = schedule.scheduleJob({hour: 3, minute: 20}, function(){
       exclusiveFlag = false;
+  });
+  var hourly = schedule.scheduleJob({minute: 15}, function(){
   });
   /* regular task */
 	var secondly= schedule.scheduleJob({second:30}, function(){
       if(!exclusiveFlag){
   		  call('/ds');
-  	    console.log('The answer to life, the universe, and everything!');
       }
 	});
 });
