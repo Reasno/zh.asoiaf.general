@@ -155,9 +155,9 @@ var category = function(){
 						}
 					}
 				}
-				if(my_content.find('\[\[category:'+stash[1]+'\]\]'){
+				if(my_content.search('\[\[category:'+stash[1]+'\]\]'))
 					return;
-				}else{
+				else{
 					zh.edit(title,my_content+'\[\[category:'+stash[1]+'\]\]','分类',function(data){
 						console.log('category added');
 					})
@@ -176,7 +176,7 @@ var category = function(){
 			console.log(data);
 			var titles  = JSON.parse(JSON.stringify(data));
 			for (var k=0 ; k<titles.length;k++){
-				makeCategory((stash[2])?findInDict(titles[k].title)):titles[k].title;				
+				makeCategory((stash[2])?findInDict(titles[k].title):titles[k].title);				
 			}
 		});
 	}
