@@ -1,6 +1,7 @@
 var http = require('http');
 var express = require('express');
 var schedule = require('node-schedule');
+var bodyParser = require('body-parser')
 var ds = require('./ds.js');
 var rename = require('./rename.js');
 var image_borrow = require('./image.js');
@@ -12,7 +13,9 @@ var rename_instance = new rename();
 var cat_instance = new category();
 var image_borrow_instance = new image_borrow();
 var app = express();
-app.use(express.bodyParser());
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use( bodyParser.urlencoded() ); // to support URL-encoded bodies
+
 app.get('/ds', function(req, res) {
   ds_instance.execute();
   // ds_ass_instance.execute();
@@ -31,6 +34,7 @@ app.get('/redirect', function(req, res) {
   res.send('Hello World!');
 });
 app.post('/rename', function(req, res) {
+  console.log(req);
   rename_instance.execute(req.body.oldName, req.body.newName);
   res.redirect('back');
 });
