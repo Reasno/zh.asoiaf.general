@@ -25,10 +25,6 @@ app.get('/image_borrow', function(req, res) {
   image_borrow_instance.execute();
   res.send('Hello World!');
 });
-app.get('/category', function(req, res) {
-  cat_instance.execute();
-  res.send('Hello World!');
-});
 app.get('/redirect', function(req, res) {
   redirect_instance.execute();
   res.send('Hello World!');
@@ -40,7 +36,7 @@ app.post('/rename', function(req, res) {
 });
 app.post('/category', function(req, res) {
   //console.log(req);
-  rename_instance.execute(req.body.enName, req.body.zhName, req.body.isImage);
+  cat_instance.execute(req.body.enName, req.body.zhName, req.body.isImage);
   res.redirect('back');
 });
 var exclusiveFlag = false;

@@ -116,7 +116,7 @@ var category = function(){
 		}
 	}
 	var where_are_my_dragons = function(bot) {
-		console.log('all images');
+		console.log('collecting categories');
 		
 		en.getPagesInCategory(stash[0], function(data){
 			console.log(data);
