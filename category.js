@@ -33,7 +33,8 @@ var category = function(){
 			if(isImage=="false"){
 				zh.getArticle("MediaWiki:Common.js/dict", function(data){
 					//console.log(data);
-					stash[2] = JSON.parse(data);
+					eval(data);
+					stash[2] = MAIN_DICT;
 					//console.log(stash[2]);
 					zh.logIn(function(data){
 						console.log(data);
