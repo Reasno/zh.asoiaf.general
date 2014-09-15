@@ -143,7 +143,7 @@ var category = function(){
 		});
 		/* Create English Link in Category Namespace */
 		zh.getArticle("Category:"+stash[1], function(data){
-			zh.edit("Category:"+stash[1], "{{En|Cateogry:"+stash[0]+"}}"+data, "zh.asoiaf.category");
+			zh.edit("Category:"+stash[1], "{{En|Category:"+stash[0]+"}}"+data?data:"", "zh.asoiaf.category");
 		});
 		
 	}
