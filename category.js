@@ -22,7 +22,10 @@ var en = new bot({
 var bot = require('nodemw');
 
 var lg = false;
-
+/* stash[0] contains english name
+   stash[1] contains chinese name
+   stash[2] flags whether it is an image category
+*/
 var category = function(){
 	var stash = ['Map_Images','[[Category:地图]]','','Images of Eddard Stark‎','[[Category:艾德·史塔克图片]]','Images of Daenerys Targaryen‎','[[category:丹妮莉丝·坦格利安图片]]','Images of Catelyn Tully‎','[[Category:凯特琳·徒利图片]]','Images of Bran Stark‎','[[Category:布兰·史塔克图片]]','Images of Arya Stark‎','[[category:艾莉亚·史塔克图片]]'];
 	var self = this
@@ -138,6 +141,11 @@ var category = function(){
 			}
 
 		});
+		/* Create English Link in Category Namespace */
+		zh.getArticle("Category:"+stash[1], function(data){
+			zh.edit("Category:"+stash[1], "{{En|Cateogry:"+stash[0]+"}}"+data, "zh.asoiaf.category");
+		});
+		
 	}
 	var where_are_my_dragons = function(bot) {
 		console.log('collecting categories');
