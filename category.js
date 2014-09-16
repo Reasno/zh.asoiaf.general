@@ -143,8 +143,8 @@ var category = function(){
 		});
 		/* Create English Link in Category Namespace */
 		zh.getArticle("Category:"+stash[1], function(data){
-			var re = new RegExp('\\{\\{En:','ig');
-			if(data.search(re)=='-1'){
+			var re = new RegExp('En:','ig');
+			if(data==null || data.search(re)=='-1'){
 				zh.edit("Category:"+stash[1], "{{En|Category:"+stash[0]+"}}"+data?data:"", "zh.asoiaf.category");
 			}
 		});
