@@ -88,10 +88,15 @@ var rename = function(){
         var my_title = this.title;
         //console.log(data);
         console.log(title);
-        var re = new RegExp('\\[\\['+stash[0]+'\\]\\]',"ig");
-        data = data.replace(re,"\[\["+stash[1]+'\]\]');
-        re = new RegExp('\\[\\['+stash[0]+'\\|',"ig");
-        data = data.replace(re,'\[\['+stash[1]+'\|');
+        if (stash[0].indexOf("\"")==-1){
+          var re = new RegExp('\\[\\['+stash[0]+'\\]\\]',"ig");
+          data = data.replace(re,"\[\["+stash[1]+'\]\]');
+          re = new RegExp('\\[\\['+stash[0]+'\\|',"ig");
+          data = data.replace(re,'\[\['+stash[1]+'\|');
+        }else{
+          var re = new RegExp(stash[0],"ig");
+          data = data.replace(re,stash[1]);
+        }
         zh.edit(title, data, "zh.asoiaf.rename"+stash[0]+"->"+stash[1],function(data){console.log("success")});
       });
   }
