@@ -102,7 +102,7 @@ var rename = function(){
   }
   var where_are_my_dragons = function(bot) {
     console.log('renaming articles'+stash[0]);
-    var links = stash[0].indexOf("\"")==-1?stash[0]:stash[0].substring(0,stash[0].indexOf("\"");
+    var links = stash[0].indexOf("\"")==-1?stash[0]:stash[0].substring(0,stash[0].indexOf("\""));
     console.log(links);
     zh.getBacklinks(), function(data){
       console.log(data);
