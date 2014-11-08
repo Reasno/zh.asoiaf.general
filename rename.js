@@ -97,13 +97,13 @@ var rename = function(){
           var re = new RegExp(stash[0].substring(stash[0].indexOf("\"")+1, stash[0].lastIndexOf("\"")),"ig");
           data = data.replace(re,stash[1]);
         }
-        zh.edit(title, data, "zh.asoiaf.rename"+stash[0]+"->"+stash[1],function(data){console.log("success")});
+        zh.edit(title, data, "zh.asoiaf.rename"+stash[0]+"->"+stash[1],function(data){console.log("data:"+data)});
       });
   }
   var where_are_my_dragons = function(bot) {
     console.log('renaming articles');
     
-    zh.getBacklinks(stash[0].indexOf("\"")==-1?stash[0]:stash[0].substring(stash[0].indexOf("\"")+1, stash[0].lastIndexOf("\"")), function(data){
+    zh.getBacklinks(stash[0].indexOf("\"")==-1?stash[0]:stash[0].substring(0,stash[0].IndexOf("\"")), function(data){
       console.log(data);
       var titles  = JSON.parse(JSON.stringify(data));
       for (var k=0 ; k<titles.length;k++){
