@@ -104,7 +104,7 @@ var rename = function(){
     console.log('renaming articles'+stash[0]);
     var links = stash[0].indexOf("\"")==-1?stash[0]:stash[0].substring(0,stash[0].indexOf("\""));
     console.log(links);
-    zh.getBacklinks(), function(data){
+    zh.getBacklinks(links), function(data){
       console.log(data);
       var titles  = JSON.parse(JSON.stringify(data));
       for (var k=0 ; k<titles.length;k++){
