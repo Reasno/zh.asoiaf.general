@@ -97,7 +97,7 @@ var rename = function(){
           var re = new RegExp(stash[0].substring(stash[0].indexOf("\"")+1, stash[0].lastIndexOf("\"")),"ig");
           data = data.replace(re,stash[1]);
         }
-        zh.edit(title, data, "zh.asoiaf.rename"+stash[0]+"->"+stash[1],function(data){console.log("data:"+data)});
+        zh.edit(title, data, "zh.asoiaf.rename"+stash[0]+"->"+stash[1],null);
       });
   }
   var where_are_my_dragons = function(bot) {
@@ -105,7 +105,7 @@ var rename = function(){
     var links = stash[0].indexOf("\"")==-1?stash[0]:stash[0].substring(0,stash[0].indexOf("\""));
     console.log(links);
     zh.getBacklinks(links, function(data){
-      console.log(data);
+      editContent(links);
       var titles  = JSON.parse(JSON.stringify(data));
       for (var k=0 ; k<titles.length;k++){
         editContent(titles[k].title);
