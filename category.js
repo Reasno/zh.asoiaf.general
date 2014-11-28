@@ -144,7 +144,7 @@ var category = function(){
 		/* Create English Link in Category Namespace */
 		zh.getArticle("Category:"+stash[1], function(data){
 			if(!data){
-				zh.edit("Category:"+stash[1], "{{En|Category:"+stash[0]+"}}", "zh.asoiaf.category");
+				zh.edit("Category:"+stash[1], "{{noarticletext|"+stash[0]+"}}", "zh.asoiaf.category");
 			}
 		});
 		
